@@ -1,12 +1,10 @@
 "use client";
-import { useState } from "react";
-import { motion } from "framer-motion";
+import { useRef, useState } from "react";
+import { motion, useInView } from "framer-motion";
 import Image from "next/image";
 
 const spring = { type: "spring" as const, stiffness: 300, damping: 24 };
 const springSoft = { type: "spring" as const, stiffness: 200, damping: 20 };
-const tweenSlow = { duration: 0.6, ease: [0.22, 1, 0.36, 1] as const };
-
 const nameChars = "Anthony Tang.".split("");
 const taglineWords = "I build large-scale AI and web systems.".split(" ");
 
@@ -16,6 +14,8 @@ const checkIcon = (
 
 export default function Home() {
   const [copiedKey, setCopiedKey] = useState<string | null>(null);
+  const heroSocialRef = useRef<HTMLDivElement | null>(null);
+  const heroSocialInView = useInView(heroSocialRef, { amount: 0.3 });
 
   const handleCopy = (copyValue: string, label: string) => {
     navigator.clipboard.writeText(copyValue);
@@ -33,7 +33,7 @@ export default function Home() {
             initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: false, margin: "-100px" }}
-            transition={{ opacity: { delay: 0.05, duration: 0.4 }, y: { delay: 0.05, ...spring } }}
+            transition={{ opacity: { delay: 0.05, duration: 0.55, ease: [0.25, 0.46, 0.45, 0.94] }, y: { delay: 0.05, duration: 0.55, ease: [0.25, 0.46, 0.45, 0.94] } }}
             className="text-green font-mono text-xs tracking-widest uppercase mb-5"
           >
             Hi, my name is
@@ -90,7 +90,7 @@ export default function Home() {
             initial={{ opacity: 0, filter: "blur(8px)" }}
             whileInView={{ opacity: 1, filter: "blur(0px)" }}
             viewport={{ once: false, margin: "-100px" }}
-            transition={{ ...tweenSlow, delay: 0.5 }}
+            transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94], delay: 0.5 }}
             className="max-w-[500px] mt-6 text-[15px] text-slate/90 leading-[1.65]"
           >
             Student at <span className="text-green">Rice University</span> (BS CS, BA
@@ -98,12 +98,61 @@ export default function Home() {
             <span className="text-green"> AAAI-26</span> paper on interpretability and
             LLM failures.
           </motion.p>
+          <motion.div
+            ref={heroSocialRef}
+            className="flex items-center mt-6"
+            style={{ gap: '24px' }}
+            initial={{ opacity: 0, y: 16 }}
+            animate={
+              heroSocialInView
+                ? {
+                    opacity: 1,
+                    y: 0,
+                    transition: {
+                      duration: 0.85,
+                      ease: [0.25, 0.46, 0.45, 0.94],
+                      delay: 0.7,
+                    },
+                  }
+                : {
+                    opacity: 0,
+                    y: 16,
+                    transition: {
+                      duration: 0.3,
+                      ease: [0.25, 0.46, 0.45, 0.94],
+                    },
+                  }
+            }
+          >
+            <motion.a
+              href="https://github.com/anthonytang"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center w-10 h-10 min-w-[2.5rem] min-h-[2.5rem] rounded-full overflow-hidden bg-[var(--ink)] text-[var(--bg)] hover:opacity-90 transition-opacity"
+              aria-label="GitHub"
+              whileHover={{ scale: 1.08, y: -2 }}
+              whileTap={{ scale: 0.96 }}
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.545 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+            </motion.a>
+            <motion.a
+              href="https://www.linkedin.com/in/anthony-tang-69665a279/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center w-10 h-10 min-w-[2.5rem] min-h-[2.5rem] rounded-full overflow-hidden bg-[var(--ink)] text-[var(--bg)] hover:opacity-90 transition-opacity"
+              aria-label="LinkedIn"
+              whileHover={{ scale: 1.08, y: -2 }}
+              whileTap={{ scale: 0.96 }}
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+            </motion.a>
+          </motion.div>
           </div>
           <motion.div
             initial={{ opacity: 0, filter: "blur(8px)" }}
             whileInView={{ opacity: 1, filter: "blur(0px)" }}
             viewport={{ once: false, margin: "-100px" }}
-            transition={{ duration: 2, ease: [0.22, 1, 0.36, 1], delay: 0.2 }}
+            transition={{ duration: 1.4, ease: [0.25, 0.46, 0.45, 0.94], delay: 0.25 }}
             className="hero-photo-frame shrink-0 w-[260px] h-[260px] sm:w-[300px] sm:h-[300px] md:w-[360px] md:h-[360px] -mt-2"
           >
             <div className="hero-photo-frame-inner w-full h-full">
@@ -127,7 +176,7 @@ export default function Home() {
           initial={{ opacity: 0, x: -20 }}
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: false, margin: "-40px" }}
-          transition={{ ...spring, delay: 0.1 }}
+          transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94], delay: 0.1 }}
         >
           About Me
         </motion.h2>
@@ -135,7 +184,7 @@ export default function Home() {
           initial={{ opacity: 0, filter: "blur(10px)", y: 16 }}
           whileInView={{ opacity: 1, filter: "blur(0px)", y: 0 }}
           viewport={{ once: false, margin: "-50px" }}
-          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1], delay: 0.15 }}
+          transition={{ duration: 0.75, ease: [0.25, 0.46, 0.45, 0.94], delay: 0.15 }}
           className="text-slate/90 text-[15px] leading-[1.8] mt-1"
         >
           I was born in Round Rock and grew up in Austin, TX. I&apos;ve always been
@@ -158,7 +207,7 @@ export default function Home() {
           initial={{ opacity: 0, x: -20 }}
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: false, margin: "-40px" }}
-          transition={{ ...spring, delay: 0.1 }}
+          transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94], delay: 0.1 }}
         >
           Education
         </motion.h2>
@@ -214,7 +263,7 @@ export default function Home() {
           initial={{ opacity: 0, x: -20 }}
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: false, margin: "-40px" }}
-          transition={{ ...spring, delay: 0.1 }}
+          transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94], delay: 0.1 }}
         >
           Where I&apos;ve Worked
         </motion.h2>
@@ -308,7 +357,7 @@ export default function Home() {
           initial={{ opacity: 0, x: -20 }}
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: false, margin: "-40px" }}
-          transition={{ ...spring, delay: 0.1 }}
+          transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94], delay: 0.1 }}
         >
           Some Things I&apos;ve Built
         </motion.h2>
@@ -434,7 +483,7 @@ export default function Home() {
           initial={{ opacity: 0, x: -20 }}
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: false, margin: "-40px" }}
-          transition={{ ...spring, delay: 0.1 }}
+          transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94], delay: 0.1 }}
         >
           Other Projects
         </motion.h2>
@@ -509,10 +558,10 @@ export default function Home() {
               whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
               viewport={{ once: false, margin: "-30px" }}
               transition={{
-                opacity: { duration: 0.5, ease: [0.22, 1, 0.36, 1] },
-                y: { duration: 0.5, ease: [0.22, 1, 0.36, 1] },
-                filter: { duration: 0.4 },
-                delay: i * 0.1,
+                opacity: { duration: 0.65, ease: [0.25, 0.46, 0.45, 0.94] },
+                y: { duration: 0.65, ease: [0.25, 0.46, 0.45, 0.94] },
+                filter: { duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] },
+                delay: i * 0.08,
               }}
               whileHover={{ y: -4, scale: 1.02 }}
               className="group relative rounded-[var(--radius-md)] border border-[var(--border)] bg-[var(--navy)] transition-shadow hover:shadow-[var(--shadow-card-hover)]"
@@ -531,7 +580,7 @@ export default function Home() {
                   className="flex items-start justify-between"
                   style={{ gap: '12px' }}
                   variants={{ hidden: { opacity: 0, y: 12 }, visible: { opacity: 1, y: 0 } }}
-                  transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+                  transition={{ duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
                 >
                   <span className="text-[var(--ink)]/60" aria-hidden>
                     <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
@@ -569,7 +618,7 @@ export default function Home() {
                   className="text-[15px] font-semibold text-[var(--ink)] group-hover:text-[var(--ink)]/90"
                   style={{ marginTop: '24px' }}
                   variants={{ hidden: { opacity: 0, y: 10 }, visible: { opacity: 1, y: 0 } }}
-                  transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+                  transition={{ duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
                 >
                   {project.title}
                 </motion.h3>
@@ -577,7 +626,7 @@ export default function Home() {
                   className="text-[13px] text-[var(--ink-muted)] leading-[1.6]"
                   style={{ marginTop: '14px' }}
                   variants={{ hidden: { opacity: 0, y: 10 }, visible: { opacity: 1, y: 0 } }}
-                  transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+                  transition={{ duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
                 >
                   {project.description}
                 </motion.p>
@@ -585,7 +634,7 @@ export default function Home() {
                   className="font-mono text-[11px] text-[var(--ink)]/50 flex flex-wrap"
                   style={{ marginTop: '24px', gap: '8px 12px' }}
                   variants={{ hidden: { opacity: 0, y: 8 }, visible: { opacity: 1, y: 0 } }}
-                  transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+                  transition={{ duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
                 >
                   {project.tech.map((t, idx) => (
                     <span key={t}>
@@ -607,7 +656,7 @@ export default function Home() {
           initial={{ opacity: 0, x: -20 }}
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: false, margin: "-40px" }}
-          transition={{ ...spring, delay: 0.1 }}
+          transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94], delay: 0.1 }}
         >
           Get In Touch
         </motion.h2>
@@ -615,7 +664,7 @@ export default function Home() {
           initial={{ opacity: 0, filter: "blur(8px)" }}
           whileInView={{ opacity: 1, filter: "blur(0px)" }}
           viewport={{ once: false, margin: "-30px" }}
-          transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1], delay: 0.12 }}
+          transition={{ duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94], delay: 0.12 }}
           whileHover={{ x: 6, scale: 1.02, rotateY: 2 }}
           style={{ display: 'flex', flexDirection: 'column', gap: '32px', transformOrigin: "left center" }}
           className="mt-1"
