@@ -1,0 +1,277 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@theme {
+  --color-green: #0a0a0a;
+  --color-lightest-slate: #0a0a0a;
+  --color-light-slate: #404040;
+  --color-slate: #525252;
+  --color-light-navy: #f5f5f5;
+  --color-lightest-navy: #e5e5e5;
+  --color-navy: #fafafa;
+  --font-sans: var(--font-dm-sans, 'DM Sans'), system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains, 'JetBrains Mono'), 'SF Mono', monospace;
+}
+
+:root {
+  --bg: #ffffff;
+  --bg-subtle: #fafafa;
+  --ink: #0a0a0a;
+  --ink-muted: #525252;
+  --ink-light: #737373;
+  --border: #e5e5e5;
+  --slate: #525252;
+  --light-slate: #404040;
+  --lightest-slate: #0a0a0a;
+  --green: #0a0a0a;
+  --green-tint: rgba(0, 0, 0, 0.06);
+  --navy: #fafafa;
+  --light-navy: #f5f5f5;
+  --lightest-navy: #e5e5e5;
+
+  --font-sans: var(--font-dm-sans, 'DM Sans'), system-ui, -apple-system, sans-serif;
+  --font-mono: var(--font-jetbrains, 'JetBrains Mono'), 'SF Mono', 'Fira Code', monospace;
+
+  --fz-xxs: 12px;
+  --fz-xs: 13px;
+  --fz-sm: 14px;
+  --fz-md: 16px;
+  --fz-xl: 20px;
+  --fz-heading: 32px;
+
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --border-radius: var(--radius-sm);
+  --nav-height: 100px;
+  --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-card-hover: 0 4px 12px rgba(0, 0, 0, 0.06);
+}
+
+body {
+  margin: 0;
+  width: 100%;
+  min-height: 100%;
+  overflow-x: hidden;
+  background-color: var(--bg);
+  color: var(--ink-muted);
+  font-family: var(--font-sans);
+  line-height: 1.6;
+  letter-spacing: 0.01em;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Nav link – underline animation */
+.nav-list-link {
+  color: var(--light-slate);
+  font-size: var(--fz-xs);
+  font-family: var(--font-mono);
+  text-decoration: none;
+  padding: 0.5rem 0.25rem;
+  position: relative;
+  transition: color var(--transition);
+}
+.nav-list-link:hover,
+.nav-list-link:focus-visible {
+  color: var(--ink);
+}
+.nav-list-link::after {
+  content: '';
+  position: absolute;
+  left: 0.25rem;
+  right: 0.25rem;
+  bottom: 0.25rem;
+  height: 1px;
+  background: var(--ink);
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.25s cubic-bezier(0.645, 0.045, 0.355, 1);
+}
+.nav-list-link:hover::after,
+.nav-list-link:focus-visible::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+.resume-button {
+  display: inline-block;
+  color: var(--ink);
+  background: transparent;
+  border: 1px solid var(--ink);
+  border-radius: var(--radius-sm);
+  padding: 0.6rem 1rem;
+  font-size: var(--fz-xs);
+  font-family: var(--font-mono);
+  text-decoration: none;
+  transition: var(--transition);
+}
+.resume-button:hover,
+.resume-button:focus-visible {
+  border-color: var(--ink);
+  background: var(--green-tint);
+  outline: none;
+}
+
+.small-button {
+  color: var(--ink);
+  background-color: transparent;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 0.5rem 0.875rem;
+  font-size: var(--fz-xs);
+  font-family: var(--font-mono);
+  line-height: 1;
+  text-decoration: none;
+  cursor: pointer;
+  transition: var(--transition);
+}
+.small-button:hover,
+.small-button:focus-visible {
+  outline: none;
+  border-color: var(--ink);
+  background: var(--green-tint);
+}
+
+.big-button {
+  color: var(--ink);
+  background-color: transparent;
+  border: 1px solid var(--ink);
+  border-radius: var(--radius-sm);
+  padding: 0.625rem 1.25rem;
+  font-size: var(--fz-sm);
+  font-family: var(--font-mono);
+  line-height: 1;
+  text-decoration: none;
+  cursor: pointer;
+  transition: var(--transition);
+}
+.big-button:hover,
+.big-button:focus-visible {
+  outline: none;
+  border-color: var(--ink);
+  background: var(--green-tint);
+}
+
+.archive-link-button {
+  display: inline-flex;
+  align-items: center;
+  color: var(--ink);
+  background: transparent;
+  border: 1px solid var(--ink);
+  border-radius: var(--radius-sm);
+  padding: 0.5rem 1rem;
+  font-size: var(--fz-xs);
+  font-family: var(--font-mono);
+  text-decoration: none;
+  letter-spacing: 0.02em;
+  transition: var(--transition);
+}
+.archive-link-button:hover,
+.archive-link-button:focus-visible {
+  outline: none;
+  background: var(--green-tint);
+}
+
+.hero-photo-frame {
+  position: relative;
+  z-index: 0;
+  border-radius: 0.75rem;
+  background: transparent;
+  overflow: visible;
+}
+.hero-photo-frame::before,
+.hero-photo-frame::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  border: 1px solid var(--ink);
+  z-index: -1;
+}
+
+.hero-photo-frame::before {
+  transform: translate(-10px, -10px);
+}
+
+.hero-photo-frame::after {
+  transform: translate(16px, 16px);
+}
+
+.hero-photo-frame-inner {
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+  overflow: hidden;
+  border: 1px solid var(--ink);
+  background: var(--bg);
+  transform: translate(-10px, -10px);
+}
+
+/* Reset section counter once so numbered headings get 01, 02, 03... */
+.counter-reset-section {
+  counter-reset: section 0;
+}
+
+.numbered-heading {
+  display: flex;
+  align-items: center;
+  position: relative;
+  margin: 0 0 2.25rem;
+  width: 100%;
+  font-size: clamp(20px, 4vw, 26px);
+  white-space: nowrap;
+  color: var(--ink);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+.numbered-heading::before {
+  counter-increment: section;
+  content: '0' counter(section) '.';
+  margin-right: 0.75rem;
+  color: var(--ink);
+  font-family: var(--font-mono);
+  font-size: clamp(var(--fz-md), 3vw, var(--fz-xl));
+  font-weight: 400;
+}
+.numbered-heading::after {
+  content: '';
+  display: block;
+  flex: 1;
+  max-width: 200px;
+  height: 1px;
+  margin-left: 1.25rem;
+  background: linear-gradient(90deg, var(--border) 0%, transparent 100%);
+  opacity: 0.8;
+}
+
+/* Clean list style for experience / content */
+.content-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.content-list li {
+  position: relative;
+  padding-left: 1.25rem;
+  margin-bottom: 0.5rem;
+}
+.content-list li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.55em;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: var(--ink);
+  opacity: 0.6;
+}
+
+/* Scroll margin so fixed nav doesn't cover section headings */
+section[id] {
+  scroll-margin-top: calc(var(--nav-height) + 1.5rem);
+}
