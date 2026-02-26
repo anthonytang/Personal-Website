@@ -27,7 +27,7 @@ export default function Home() {
     <main className="max-w-[1200px] mx-auto counter-reset-section" style={{ paddingLeft: 'clamp(24px, 5vw, 48px)', paddingRight: 'clamp(24px, 5vw, 48px)' }}>
       {/* HERO */}
       <section className="min-h-screen flex flex-col justify-center items-start pt-[var(--nav-height)] pb-16">
-        <div className="w-full flex flex-row items-start justify-between gap-6 md:gap-10 min-h-0">
+        <div className="hero-row w-full flex flex-row items-start justify-between gap-6 md:gap-10 min-h-0">
           <div className="relative min-w-0 flex-shrink">
           <motion.p
             initial={{ opacity: 0, y: 16 }}
